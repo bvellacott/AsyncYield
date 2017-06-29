@@ -83,3 +83,7 @@ npm install
 ```bash
 npm test
 ```
+or
+```bash
+node runTests
+```

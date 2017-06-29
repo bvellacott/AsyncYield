@@ -1,3 +1,5 @@
+var undefined;
+
 function isPromise(val) {
   return !!val && typeof val === 'object' && typeof val.then === 'function' && typeof val.catch === 'function';
 }
