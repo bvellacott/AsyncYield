@@ -1,6 +1,6 @@
 {
   "name": "async-yield",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "My implementation of async await using generator functions",
   "main": "index.js",
   "scripts": {
