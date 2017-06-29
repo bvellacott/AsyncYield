@@ -22,17 +22,17 @@ function throwImmediateError(err) {
   throw err;
 }
 
-var runErrors = async(function*() {
+var runErrors = async(function*(err1, err2) {
   var errors = [];
 
   try {
-    yield waitAndReject('error 1');
+    yield waitAndReject(err1);
   } catch(e) {
     errors.push(e);
   }
 
   try {
-    yield throwImmediateError('error 2');
+    yield throwImmediateError(err2);
   } catch(e) {
     errors.push(e);
   }
@@ -40,20 +40,20 @@ var runErrors = async(function*() {
   throw errors;
 });
 
-var runResolves = async(function*() {
+var runResolves = async(function*(res1, res2, res3) {
   var results = [];
 
-  results.push(yield waitAndResolve('hello 1'));
+  results.push(yield waitAndResolve(res1));
 
-  results.push(yield waitAndResolve('hello 2'));
+  results.push(yield waitAndResolve(res2));
 
-  results.push(yield 'no promise');
+  results.push(yield res3);
 
   return results;
 });
 
 it('test error handling', function(done) {
-  runErrors()
+  runErrors('error 1', 'error 2')
   .then(res => done(new Error("shouldn't resolve")))
   .catch(errors => {
     assert.deepEqual(errors, ['error 1', 'error 2']);
@@ -63,7 +63,7 @@ it('test error handling', function(done) {
 });
 
 it('test value resolving', function(done) {
-  runResolves()
+  runResolves('hello 1', 'hello 2', 'no promise')
   .then(results => {
     assert.deepEqual(results, ['hello 1', 'hello 2', 'no promise']);
     done();

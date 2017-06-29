@@ -3,9 +3,16 @@ function isPromise(val) {
 }
 
 function async(gen) {
-  return () => {
+  if(typeof gen !== 'function')
+    throw new Error('The argument to async must be a generator function');
+
+  return function() {
+    var args = [];
+    for(var i = 0; i < arguments.length; i++)
+      args.push(arguments[i]);
+
     return new Promise((resolve, reject) => {
-      tryCatchIteration(gen(), undefined, false, resolve, reject) 
+      tryCatchIteration(gen.apply(null, args), undefined, false, resolve, reject) 
     });
   };
 }
