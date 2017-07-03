@@ -78,7 +78,7 @@ runErrors('error 1', 'error 2').catch(console.error);
 When you test your async functions, you might want to inspect the intermediate resolved and rejected yield values. You can do this by calling the yieldAll method.
 
 ### An example using mocha
-```
+```js
 var assert = require('assert');
 
 var runErrorsYA = async(function*(err1, err2, err3) {
